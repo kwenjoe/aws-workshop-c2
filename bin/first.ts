@@ -28,9 +28,9 @@ const sg = ec2.SecurityGroup.fromSecurityGroupId(stack ,"MySg" , "sg-0324b84b8de
 
 const cluster = ecs.Cluster.fromClusterAttributes(stack , "MyCluster" , {
   vpc: vpcDemo,
-  clusterName:"FirstStack-DemoServiceCluster7FE3C98F-AV8sUiO2NIg4",
+  clusterName:"xxxxx",
   securityGroups: [sg] ,
-  clusterArn: "arn:aws:ecs:us-east-1:813023055415:cluster/FirstStack-DemoServiceCluster7FE3C98F-AV8sUiO2NIg4",
+  clusterArn: "arn:xxxxxx",
 })
 
 
@@ -38,7 +38,7 @@ const cluster = ecs.Cluster.fromClusterAttributes(stack , "MyCluster" , {
 
 new redisService(stack , "MyRedis" , {
    HostCluster: cluster,
-   efsId : "fs-e7411353"
+   efsId : "xxxxx"
 });
 
 //new FirstStack(app, 'FirstStack', {

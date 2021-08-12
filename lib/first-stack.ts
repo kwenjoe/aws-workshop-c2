@@ -9,7 +9,7 @@ export class FirstStack extends cdk.Stack {
     super(scope, id, props);
 
 
-    const cert = certManager.Certificate.fromCertificateArn(this, 'MyCert' , 'arn:aws:acm:us-east-1:813023055415:certificate/6b186edf-357e-49af-804b-ffc816c5768e');
+    const cert = certManager.Certificate.fromCertificateArn(this, 'MyCert' , 'arn:xxxxxx');
 
 
     const nginxTask = new ecs.FargateTaskDefinition(this, 'Task' , {

@@ -1,0 +1,434 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "@aws-cdk/core.Construct",
+          "version": "1.116.0"
+        }
+      },
+      "MyRedis-demo": {
+        "id": "MyRedis-demo",
+        "path": "MyRedis-demo",
+        "children": {
+          "vpc": {
+            "id": "vpc",
+            "path": "MyRedis-demo/vpc",
+            "children": {
+              "PublicSubnet1": {
+                "id": "PublicSubnet1",
+                "path": "MyRedis-demo/vpc/PublicSubnet1",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Resource",
+                  "version": "1.116.0"
+                }
+              },
+              "PublicSubnet2": {
+                "id": "PublicSubnet2",
+                "path": "MyRedis-demo/vpc/PublicSubnet2",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Resource",
+                  "version": "1.116.0"
+                }
+              },
+              "PublicSubnet3": {
+                "id": "PublicSubnet3",
+                "path": "MyRedis-demo/vpc/PublicSubnet3",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Resource",
+                  "version": "1.116.0"
+                }
+              },
+              "PrivateSubnet1": {
+                "id": "PrivateSubnet1",
+                "path": "MyRedis-demo/vpc/PrivateSubnet1",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Resource",
+                  "version": "1.116.0"
+                }
+              },
+              "PrivateSubnet2": {
+                "id": "PrivateSubnet2",
+                "path": "MyRedis-demo/vpc/PrivateSubnet2",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Resource",
+                  "version": "1.116.0"
+                }
+              },
+              "PrivateSubnet3": {
+                "id": "PrivateSubnet3",
+                "path": "MyRedis-demo/vpc/PrivateSubnet3",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Resource",
+                  "version": "1.116.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.Resource",
+              "version": "1.116.0"
+            }
+          },
+          "MySg": {
+            "id": "MySg",
+            "path": "MyRedis-demo/MySg",
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.Resource",
+              "version": "1.116.0"
+            }
+          },
+          "MyCluster": {
+            "id": "MyCluster",
+            "path": "MyRedis-demo/MyCluster",
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.Resource",
+              "version": "1.116.0"
+            }
+          },
+          "MyRedis": {
+            "id": "MyRedis",
+            "path": "MyRedis-demo/MyRedis",
+            "children": {
+              "redisTask": {
+                "id": "redisTask",
+                "path": "MyRedis-demo/MyRedis/redisTask",
+                "children": {
+                  "TaskRole": {
+                    "id": "TaskRole",
+                    "path": "MyRedis-demo/MyRedis/redisTask/TaskRole",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "MyRedis-demo/MyRedis/redisTask/TaskRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "ecs-tasks.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/aws-iam.CfnRole",
+                          "version": "1.116.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-iam.Role",
+                      "version": "1.116.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "MyRedis-demo/MyRedis/redisTask/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ECS::TaskDefinition",
+                      "aws:cdk:cloudformation:props": {
+                        "containerDefinitions": [
+                          {
+                            "essential": true,
+                            "image": "redis:latest",
+                            "mountPoints": [
+                              {
+                                "containerPath": "/data",
+                                "readOnly": false,
+                                "sourceVolume": "data"
+                              }
+                            ],
+                            "name": "redisContainer",
+                            "portMappings": [
+                              {
+                                "containerPort": 6379,
+                                "hostPort": 6379,
+                                "protocol": "tcp"
+                              }
+                            ]
+                          }
+                        ],
+                        "cpu": "256",
+                        "family": "MyRedisdemoMyRedisredisTask5DD4CB77",
+                        "memory": "512",
+                        "networkMode": "awsvpc",
+                        "requiresCompatibilities": [
+                          "FARGATE"
+                        ],
+                        "taskRoleArn": {
+                          "Fn::GetAtt": [
+                            "MyRedisredisTaskTaskRole88193630",
+                            "Arn"
+                          ]
+                        },
+                        "volumes": [
+                          {
+                            "name": "data",
+                            "efsVolumeConfiguration": {
+                              "fileSystemId": "fs-e7411353",
+                              "rootDirectory": "/"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-ecs.CfnTaskDefinition",
+                      "version": "1.116.0"
+                    }
+                  },
+                  "redisContainer": {
+                    "id": "redisContainer",
+                    "path": "MyRedis-demo/MyRedis/redisTask/redisContainer",
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-ecs.ContainerDefinition",
+                      "version": "1.116.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-ecs.FargateTaskDefinition",
+                  "version": "1.116.0"
+                }
+              },
+              "RedisNLB": {
+                "id": "RedisNLB",
+                "path": "MyRedis-demo/MyRedis/RedisNLB",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "MyRedis-demo/MyRedis/RedisNLB/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+                      "aws:cdk:cloudformation:props": {
+                        "loadBalancerAttributes": [
+                          {
+                            "key": "deletion_protection.enabled",
+                            "value": "false"
+                          }
+                        ],
+                        "scheme": "internet-facing",
+                        "subnets": [
+                          "subnet-0d38e63f8808d1604",
+                          "subnet-0d862adbe5c290399",
+                          "subnet-02e68038802fdfd0e"
+                        ],
+                        "type": "network"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-elasticloadbalancingv2.CfnLoadBalancer",
+                      "version": "1.116.0"
+                    }
+                  },
+                  "Listener": {
+                    "id": "Listener",
+                    "path": "MyRedis-demo/MyRedis/RedisNLB/Listener",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "MyRedis-demo/MyRedis/RedisNLB/Listener/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::Listener",
+                          "aws:cdk:cloudformation:props": {
+                            "defaultActions": [
+                              {
+                                "type": "forward",
+                                "targetGroupArn": {
+                                  "Ref": "MyRedistg9B52BF17"
+                                }
+                              }
+                            ],
+                            "loadBalancerArn": {
+                              "Ref": "MyRedisRedisNLB8657ABBF"
+                            },
+                            "port": 6379,
+                            "protocol": "TCP"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/aws-elasticloadbalancingv2.CfnListener",
+                          "version": "1.116.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-elasticloadbalancingv2.NetworkListener",
+                      "version": "1.116.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-elasticloadbalancingv2.NetworkLoadBalancer",
+                  "version": "1.116.0"
+                }
+              },
+              "redisService": {
+                "id": "redisService",
+                "path": "MyRedis-demo/MyRedis/redisService",
+                "children": {
+                  "Service": {
+                    "id": "Service",
+                    "path": "MyRedis-demo/MyRedis/redisService/Service",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ECS::Service",
+                      "aws:cdk:cloudformation:props": {
+                        "cluster": "FirstStack-DemoServiceCluster7FE3C98F-AV8sUiO2NIg4",
+                        "deploymentConfiguration": {
+                          "maximumPercent": 200,
+                          "minimumHealthyPercent": 50
+                        },
+                        "enableEcsManagedTags": false,
+                        "healthCheckGracePeriodSeconds": 60,
+                        "launchType": "FARGATE",
+                        "loadBalancers": [
+                          {
+                            "targetGroupArn": {
+                              "Ref": "MyRedistg9B52BF17"
+                            },
+                            "containerName": "redisContainer",
+                            "containerPort": 6379
+                          }
+                        ],
+                        "networkConfiguration": {
+                          "awsvpcConfiguration": {
+                            "assignPublicIp": "DISABLED",
+                            "subnets": [
+                              "subnet-0b53a3912e8663986",
+                              "subnet-017acc92ca32f3828",
+                              "subnet-0205c589f06142f82"
+                            ],
+                            "securityGroups": [
+                              {
+                                "Fn::GetAtt": [
+                                  "MyRedisredisServiceSecurityGroup81AE20B0",
+                                  "GroupId"
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "taskDefinition": {
+                          "Ref": "MyRedisredisTaskED2FE579"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-ecs.CfnService",
+                      "version": "1.116.0"
+                    }
+                  },
+                  "SecurityGroup": {
+                    "id": "SecurityGroup",
+                    "path": "MyRedis-demo/MyRedis/redisService/SecurityGroup",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "MyRedis-demo/MyRedis/redisService/SecurityGroup/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                          "aws:cdk:cloudformation:props": {
+                            "groupDescription": "MyRedis-demo/MyRedis/redisService/SecurityGroup",
+                            "securityGroupEgress": [
+                              {
+                                "cidrIp": "0.0.0.0/0",
+                                "description": "Allow all outbound traffic by default",
+                                "ipProtocol": "-1"
+                              }
+                            ],
+                            "vpcId": "vpc-07ed63ae29c333e24"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/aws-ec2.CfnSecurityGroup",
+                          "version": "1.116.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-ec2.SecurityGroup",
+                      "version": "1.116.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-ecs.FargateService",
+                  "version": "1.116.0"
+                }
+              },
+              "tg": {
+                "id": "tg",
+                "path": "MyRedis-demo/MyRedis/tg",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "MyRedis-demo/MyRedis/tg/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+                      "aws:cdk:cloudformation:props": {
+                        "port": 6379,
+                        "protocol": "TCP",
+                        "targetType": "ip",
+                        "vpcId": "vpc-07ed63ae29c333e24"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-elasticloadbalancingv2.CfnTargetGroup",
+                      "version": "1.116.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-elasticloadbalancingv2.NetworkTargetGroup",
+                  "version": "1.116.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.Construct",
+              "version": "1.116.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "MyRedis-demo/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "MyRedis-demo/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.CfnResource",
+                  "version": "1.116.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.Construct",
+              "version": "1.116.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "@aws-cdk/core.Stack",
+          "version": "1.116.0"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "@aws-cdk/core.App",
+      "version": "1.116.0"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "Resources": {
+    "CDKMetadata": {
+      "Type": "AWS::CDK::Metadata",
+      "Properties": {
+        "Analytics": "v2:deflate64:H4sIAAAAAAAACjPUMzQ00zNQdEgsL9ZNTsnWT84vStWrDi5JTM7WCUotzi8tSk7Vcc7PKy4pKk0u0XFOy4OJ1urk5aek6mUV65cZmugZmuuZKGYVZ2bqFpXmlWTmpuoFQWgAdw80e2IAAAA="
+      },
+      "Metadata": {
+        "aws:cdk:path": "MyRedis/CDKMetadata/Default"
+      }
+    }
+  }
+}
